@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DRM.SHOP — BRUTALIST STREETWEAR</title>
+    <link rel="icon" type="image/jpeg" href="./logo.jpeg" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link img="./logo.jpeg" el="stylesheet" href="">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-background": "#1a1c1c",
+                        "surface": "#f9f9f9",
+                        "surface-container": "#eeeeee",
+                        "error": "#ba1a1a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"],
+                        "body": ["Inter"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .brutalist-shadow {
+            box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .brutalist-shadow-sm {
+            box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .brutalist-button-hover:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .brutalist-button-hover:active,
+        .brutalist-button-active {
+            transform: translate(4px, 4px) !important;
+            box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 1) !important;
+        }
+
+        .brutalist-card-hover:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .nav-link-active {
+            border-bottom: 3px solid currentColor;
+        }
+
+        /* Animasi Toast */
+        @keyframes fade-in-out {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            90% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+        }
+
+        .toast-animation {
+            animation: fade-in-out 2.5s forwards;
+        }
+
+        /* Animasi Marquee */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee-scroll {
+            display: inline-block;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+        }
+
+        .animate-marquee-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #eeeeee;
+            border-left: 2px solid #1a1c1c;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #1a1c1c;
+            border-left: 2px solid #1a1c1c;
+            border-right: 2px solid #1a1c1c;
+        }
+    </style>
+</head>
+
+<body class="bg-[#FFDE03] font-body text-on-background min-h-screen flex flex-col">
+
+    <!-- Toast Container -->
+    <div class="fixed bottom-6 right-6 z-[200] flex flex-col gap-2" id="toastContainer"></div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobileMenu"
+        class="fixed inset-0 bg-[#FFDE03] z-[150] transform translate-x-full transition-transform duration-300 flex flex-col p-6 border-l-4 border-on-background overflow-y-auto">
+        <div class="flex justify-between items-center mb-8 border-b-4 border-on-background pb-4">
+            <span class="font-display text-2xl font-black uppercase tracking-tighter">MENU UTAMA</span>
+            <button id="closeMenuBtn"
+                class="p-2 border-4 border-on-background bg-white brutalist-shadow-sm brutalist-button-hover flex items-center justify-center">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <nav class="flex flex-col gap-4 font-display text-base font-black uppercase mb-10">
+            <button onclick="scrollToHome(); toggleMobileMenu(false);"
+                class="mobile-link text-left hover:underline decoration-4 underline-offset-4 text-xl">Beranda</button>
+            <button onclick="setSpecialFilter('new'); toggleMobileMenu(false);"
+                class="mobile-link text-left hover:underline decoration-4 underline-offset-4 text-xl">New Arrivals
+                (Terbaru)</button>
+
+            <hr class="border-2 border-on-background my-1" />
+
+            <!-- Tops Accordion -->
+            <div class="flex flex-col gap-1 bg-white border-2 border-on-background p-2 brutalist-shadow-sm">
+                <span class="text-xs text-gray-500 font-black tracking-wider">Tops (Atasan)</span>
+                <button onclick="setCategoryFilter('tops', 't-shirts'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">T-Shirts</button>
+                <button onclick="setCategoryFilter('tops', 'shirts'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors">Shirts
+                    (Kemeja)</button>
+            </div>
+
+            <!-- Outerwear Accordion -->
+            <div class="flex flex-col gap-1 bg-white border-2 border-on-background p-2 brutalist-shadow-sm">
+                <span class="text-xs text-gray-500 font-black tracking-wider">Outerwear (Pakaian Luar)</span>
+                <button onclick="setCategoryFilter('outerwear', 'jackets'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">Jackets</button>
+                <button onclick="setCategoryFilter('outerwear', 'hoodies'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">Hoodies
+                    & Pullovers</button>
+                <button onclick="setCategoryFilter('outerwear', 'sweaters'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors">Sweaters &
+                    Cardigans</button>
+            </div>
+
+            <!-- Bottoms Accordion -->
+            <div class="flex flex-col gap-1 bg-white border-2 border-on-background p-2 brutalist-shadow-sm">
+                <span class="text-xs text-gray-500 font-black tracking-wider">Bottoms (Bawahan)</span>
+                <button onclick="setCategoryFilter('bottoms', 'longpants'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">Long
+                    Pants (Celana Panjang)</button>
+                <button onclick="setCategoryFilter('bottoms', 'shortpants'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors">Short Pants
+                    (Celana Pendek)</button>
+            </div>
+
+            <!-- Accessories Accordion -->
+            <div class="flex flex-col gap-1 bg-white border-2 border-on-background p-2 brutalist-shadow-sm">
+                <span class="text-xs text-gray-500 font-black tracking-wider">Accessories (Aksesoris)</span>
+                <button onclick="setCategoryFilter('accessories', 'headwear'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">Headwear
+                    (Topi/Beanie)</button>
+                <button onclick="setCategoryFilter('accessories', 'bags'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">Bags
+                    (Tas)</button>
+                <button onclick="setCategoryFilter('accessories', 'socks'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors border-b border-gray-200">Socks
+                    (Kaos Kaki)</button>
+                <button onclick="setCategoryFilter('accessories', 'wallets-belts'); toggleMobileMenu(false);"
+                    class="mobile-link text-left pl-3 py-1 font-bold hover:bg-[#FFDE03] transition-colors">Wallets &
+                    Belts (Dompet & Sabuk)</button>
+            </div>
+
+            <hr class="border-2 border-on-background my-1" />
+
+            <button onclick="setSpecialFilter('sale'); toggleMobileMenu(false);"
+                class="mobile-link text-left hover:underline text-red-600 text-xl">Sale (Promo/Diskon)</button>
+            <button onclick="openLookbookModal(); toggleMobileMenu(false);"
+                class="mobile-link text-left hover:underline text-xl">Journal / Lookbook</button>
+        </nav>
+    </div>
+
+    <!-- Cart Overlay & Drawer -->
+    <div id="cartOverlay" class="fixed inset-0 bg-black/50 z-[90] hidden transition-opacity duration-300"></div>
+    <div id="cartDrawer"
+        class="fixed inset-y-0 right-0 w-full max-w-sm bg-white border-l-4 border-on-background z-[100] transform translate-x-full transition-transform duration-300 flex flex-col brutalist-shadow">
+        <div class="p-4 border-b-4 border-on-background flex justify-between items-center bg-[#FFDE03]">
+            <h2 class="font-display text-2xl font-black uppercase tracking-tighter">Keranjang</h2>
+            <button id="closeCartBtn"
+                class="p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block">close</span>
+            </button>
+        </div>
+        <div id="cartItems" class="flex-grow p-4 overflow-y-auto flex flex-col gap-3 bg-surface">
+            <p class="text-center text-gray-500 font-bold mt-10" id="emptyCartMsg">KERANJANG KOSONG.</p>
+        </div>
+        <div class="p-4 border-t-4 border-on-background bg-surface-container">
+            <div class="flex justify-between items-center mb-4 font-bold text-xl">
+                <span>TOTAL:</span>
+                <span id="cartTotal">Rp0</span>
+            </div>
+            <button onclick="openCheckoutModal()"
+                class="w-full bg-[#00ccf9] text-on-background py-3 font-display text-lg font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">
+                BAYAR AMAN (CHECKOUT)
+            </button>
+        </div>
+    </div>
+
+    <!-- TopNavBar -->
+    <nav
+        class="sticky top-0 z-50 flex justify-between items-center px-6 py-3 w-full bg-surface border-b-4 border-on-background">
+        <div class="flex items-center gap-6">
+            <a class="font-display text-2xl font-black text-on-background uppercase tracking-tighter" href="#"
+                onclick="scrollToHome(); return false;">DRM.SHOP</a>
+            <div class="hidden lg:flex gap-5 items-center">
+                <!-- New Arrivals -->
+                <button onclick="setSpecialFilter('new')"
+                    class="nav-link font-body text-xs font-black uppercase text-on-background transition-colors hover:text-gray-500">New
+                    Arrivals</button>
+
+                <!-- Tops Dropdown -->
+                <div class="relative group">
+                    <button
+                        class="nav-link font-body text-xs font-black uppercase text-on-background transition-colors hover:text-gray-500 flex items-center gap-0.5 py-2">
+                        Tops
+                        <span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+                    </button>
+                    <div
+                        class="absolute left-0 top-full mt-0 hidden group-hover:flex flex-col bg-white border-4 border-on-background brutalist-shadow min-w-[160px] z-[60]">
+                        <button onclick="setCategoryFilter('tops', 't-shirts')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">T-Shirts</button>
+                        <button onclick="setCategoryFilter('tops', 'shirts')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Shirts
+                            (Kemeja)</button>
+                    </div>
+                </div>
+
+                <!-- Outerwear Dropdown -->
+                <div class="relative group">
+                    <button
+                        class="nav-link font-body text-xs font-black uppercase text-on-background transition-colors hover:text-gray-500 flex items-center gap-0.5 py-2">
+                        Outerwear
+                        <span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+                    </button>
+                    <div
+                        class="absolute left-0 top-full mt-0 hidden group-hover:flex flex-col bg-white border-4 border-on-background brutalist-shadow min-w-[180px] z-[60]">
+                        <button onclick="setCategoryFilter('outerwear', 'jackets')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Jackets</button>
+                        <button onclick="setCategoryFilter('outerwear', 'hoodies')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Hoodies
+                            & Pullovers</button>
+                        <button onclick="setCategoryFilter('outerwear', 'sweaters')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Sweaters
+                            & Cardigans</button>
+                    </div>
+                </div>
+
+                <!-- Bottoms Dropdown -->
+                <div class="relative group">
+                    <button
+                        class="nav-link font-body text-xs font-black uppercase text-on-background transition-colors hover:text-gray-500 flex items-center gap-0.5 py-2">
+                        Bottoms
+                        <span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+                    </button>
+                    <div
+                        class="absolute left-0 top-full mt-0 hidden group-hover:flex flex-col bg-white border-4 border-on-background brutalist-shadow min-w-[180px] z-[60]">
+                        <button onclick="setCategoryFilter('bottoms', 'longpants')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Long
+                            Pants</button>
+                        <button onclick="setCategoryFilter('bottoms', 'shortpants')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Short
+                            Pants</button>
+                    </div>
+                </div>
+
+                <!-- Accessories Dropdown -->
+                <div class="relative group">
+                    <button
+                        class="nav-link font-body text-xs font-black uppercase text-on-background transition-colors hover:text-gray-500 flex items-center gap-0.5 py-2">
+                        Accessories
+                        <span class="material-symbols-outlined text-[16px]">keyboard_arrow_down</span>
+                    </button>
+                    <div
+                        class="absolute left-0 top-full mt-0 hidden group-hover:flex flex-col bg-white border-4 border-on-background brutalist-shadow min-w-[200px] z-[60]">
+                        <button onclick="setCategoryFilter('accessories', 'headwear')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Headwear
+                            (Topi/Beanie)</button>
+                        <button onclick="setCategoryFilter('accessories', 'bags')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Bags
+                            (Tas)</button>
+                        <button onclick="setCategoryFilter('accessories', 'socks')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Socks
+                            (Kaos Kaki)</button>
+                        <button onclick="setCategoryFilter('accessories', 'wallets-belts')"
+                            class="px-4 py-2 text-left font-display font-black text-xs uppercase hover:bg-[#FFDE03] border-b-2 border-on-background last:border-b-0 transition-colors">Wallets
+                            & Belts</button>
+                    </div>
+                </div>
+
+                <!-- Sale -->
+                <button onclick="setSpecialFilter('sale')"
+                    class="nav-link font-body text-xs font-black uppercase text-red-600 transition-colors hover:text-red-800">Sale</button>
+
+                <!-- Journal -->
+                <button onclick="openLookbookModal()"
+                    class="nav-link font-body text-xs font-black uppercase text-on-background transition-colors hover:text-gray-500">Journal
+                    / Lookbook</button>
+            </div>
+        </div>
+
+        <!-- User & Utility Menu (Top Right) -->
+        <div class="flex items-center gap-2">
+            <!-- Search Button -->
+            <button onclick="toggleSearchModal(true)"
+                class="p-2 bg-white text-on-background border-4 border-on-background brutalist-shadow brutalist-button-hover font-bold flex items-center justify-center transition-all"
+                title="Cari Produk">
+                <span class="material-symbols-outlined text-[20px]">search</span>
+            </button>
+            <!-- Account Button -->
+            <button onclick="toggleAccountModal(true)"
+                class="p-2 bg-[#00ccf9] text-on-background border-4 border-on-background brutalist-shadow brutalist-button-hover font-bold flex items-center justify-center transition-all"
+                title="Akun Saya">
+                <span class="material-symbols-outlined text-[20px]">person</span>
+            </button>
+            <!-- Cart Button -->
+            <button
+                class="flex items-center gap-1 px-3 py-2 bg-[#FF8A00] text-on-background border-4 border-on-background brutalist-shadow brutalist-button-hover font-bold text-sm uppercase transition-all"
+                id="cartBtn">
+                <span class="material-symbols-outlined text-[20px]">shopping_cart</span>
+                <span id="cartCountText" class="hidden sm:inline">Keranjang (0)</span>
+            </button>
+            <!-- Hamburger Button (Mobile Only) -->
+            <button id="hamburgerBtn"
+                class="lg:hidden flex items-center p-2 bg-[#FFDE03] border-4 border-on-background brutalist-shadow-sm brutalist-button-hover">
+                <span class="material-symbols-outlined text-[24px]">menu</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="grid grid-cols-1 md:grid-cols-2 min-h-[500px] border-b-4 border-on-background">
+        <div
+            class="flex flex-col justify-center px-8 md:px-12 py-12 bg-[#FFDE03] border-r-0 md:border-r-4 border-on-background">
+            <h1 class="font-display text-5xl md:text-7xl leading-[0.9] font-black uppercase tracking-tighter mb-6">
+                TAMPIL<br />BERANI
+            </h1>
+            <p class="font-body text-base mb-8 max-w-md font-bold text-gray-800">
+                PAKAIAN KONTRAS TINGGI UNTUK MEREKA YANG MENOLAK TAMPIL BIASA. TANPA KOMPROMI. TANPA BASA-BASI.
+            </p>
+            <div class="flex">
+                <button
+                    class="bg-[#FF8A00] text-on-background border-4 border-on-background px-8 py-3 font-display text-lg font-black uppercase brutalist-shadow brutalist-button-hover transition-all"
+                    onclick="scrollToProducts()">
+                    BELANJA SEKARANG
+                </button>
+            </div>
+        </div>
+        <div
+            class="bg-gray-200 flex items-center justify-center p-8 relative overflow-hidden border-t-4 md:border-t-0 border-on-background">
+            <div class="absolute inset-0 opacity-10 pointer-events-none"
+                style="background-image: radial-gradient(#000 2px, transparent 2px); background-size: 24px 24px;"></div>
+            <div
+                class="w-full h-full max-h-[400px] border-4 border-on-background bg-white overflow-hidden brutalist-shadow relative z-10 group">
+                <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                    src="https://images.unsplash.com/photo-1509281373149-e957c6296406?w=800&auto=format&fit=crop&q=80"
+                    alt="Hero Image" />
+            </div>
+        </div>
+    </header>
+
+    <!-- Marquee Action Berjalan -->
+    <div class="bg-on-background py-3 overflow-hidden border-b-4 border-on-background">
+        <div class="animate-marquee-scroll flex">
+            <span class="text-surface font-display text-xl font-black uppercase px-6 whitespace-nowrap">RILISAN 004
+                TERSEDIA SEKARANG // STOK TERBATAS // PENGIRIMAN SELURUH DUNIA //</span>
+            <span class="text-surface font-display text-xl font-black uppercase px-6 whitespace-nowrap">RILISAN 004
+                TERSEDIA SEKARANG // STOK TERBATAS // PENGIRIMAN SELURUH DUNIA //</span>
+            <span class="text-surface font-display text-xl font-black uppercase px-6 whitespace-nowrap">RILISAN 004
+                TERSEDIA SEKARANG // STOK TERBATAS // PENGIRIMAN SELURUH DUNIA //</span>
+            <span class="text-surface font-display text-xl font-black uppercase px-6 whitespace-nowrap">RILISAN 004
+                TERSEDIA SEKARANG // STOK TERBATAS // PENGIRIMAN SELURUH DUNIA //</span>
+        </div>
+    </div>
+
+    <!-- Main Content: Product Grid -->
+    <main class="px-6 md:px-12 py-12 flex-grow" id="arrivals">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+            <div>
+                <h2 class="font-display text-4xl font-black uppercase tracking-tighter leading-none">KOLEKSI TERBARU
+                </h2>
+                <p class="text-xs text-gray-500 font-bold mt-1 uppercase">Silakan klik ukuran terlebih dahulu sebelum
+                    menambahkan ke keranjang.</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="resetFilters()"
+                    class="p-2 border-4 border-on-background bg-white brutalist-shadow-sm brutalist-button-hover transition-all flex items-center gap-1 font-bold text-xs uppercase"
+                    title="Reset Filters">
+                    <span class="material-symbols-outlined text-[18px]">filter_alt_off</span>
+                    <span>Reset</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Active Filter Bar -->
+        <div id="activeFilterBar"
+            class="hidden flex-wrap items-center gap-2 mb-6 bg-white border-4 border-on-background p-3 brutalist-shadow-sm">
+            <span class="font-display font-black text-xs uppercase">Filter Aktif:</span>
+            <span id="activeFilterTag"
+                class="px-2 py-1 bg-[#FFDE03] border-2 border-on-background text-xs font-bold uppercase">TOPS -
+                T-SHIRTS</span>
+            <button onclick="resetFilters()"
+                class="text-xs font-black uppercase underline decoration-2 hover:text-gray-500">Hapus Semua
+                Filter</button>
+        </div>
+
+        <!-- Dynamic Product Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Products will be dynamically generated by JS -->
+        </div>
+
+        <!-- Featured Section -->
+        <section class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card Kebutuhan Mendasar -->
+            <div
+                class="md:col-span-2 bg-on-background p-6 md:p-8 flex flex-col justify-between min-h-[300px] border-4 border-on-background brutalist-shadow">
+                <h3
+                    class="font-display text-4xl md:text-5xl text-surface font-black leading-none uppercase italic break-words">
+                    KEBUTUHAN<br />MENDASAR
+                </h3>
+                <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mt-8 md:mt-auto">
+                    <p class="text-surface font-body max-w-sm text-sm">
+                        Koleksi kurasi pakaian dasar monokromatik yang dibuat untuk ketahanan maksimal tanpa kompromi.
+                    </p>
+                    <button
+                        class="bg-[#FF8A00] text-on-background px-6 py-3 border-4 border-on-background brutalist-shadow-sm brutalist-button-hover font-display text-lg font-bold uppercase transition-all w-full md:w-auto text-center"
+                        onclick="scrollToProducts()">
+                        JELAJAHI PRODUK
+                    </button>
+                </div>
+            </div>
+
+            <!-- Card Pengiriman Cepat -->
+            <div
+                class="bg-white p-6 md:p-8 border-4 border-on-background brutalist-shadow flex flex-col justify-center items-center text-center min-h-[300px]">
+                <div class="material-symbols-outlined text-[60px] mb-4">package_2</div>
+                <h4 class="font-display text-2xl font-black uppercase mb-2">PENGIRIMAN CEPAT</h4>
+                <p class="font-bold text-sm">PENGIRIMAN GLOBAL DALAM 48 JAM. KAMI TIDAK SUKA MENUNGGU BARANG DATANG
+                    LAMA.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- About Section -->
+    <section id="about" class="px-6 md:px-12 py-16 border-t-4 border-on-background bg-white">
+        <div
+            class="max-w-4xl mx-auto flex flex-col md:flex-row gap-8 items-center bg-[#FFDE03] border-4 border-on-background p-8 md:p-12 brutalist-shadow">
+            <div class="w-full md:w-1/3">
+                <div
+                    class="w-full aspect-square border-4 border-on-background bg-[#00ccf9] flex items-center justify-center brutalist-shadow-sm overflow-hidden">
+                    <img src="./logo.jpeg" alt="Logo DRM.SHOP" class="w-full h-full object-cover" />
+                </div>
+            </div>
+            <div class="w-full md:w-2/3 flex flex-col justify-center">
+                <h2 class="font-display text-4xl font-black uppercase tracking-tighter mb-4">TENTANG BRAND</h2>
+                <p class="font-body text-base font-bold text-gray-800 mb-4 leading-relaxed">
+                    DRM.SHOP bukan sekadar toko online biasa; ini adalah pemberontakan melawan desain yang terlalu rapi
+                    dan membosankan. Kami (Delpito, Rio, dan Maulana) membangun ruang ini untuk mereka yang menginginkan
+                    gaya berpakaian tampil mencolok dan tegas.
+                </p>
+                <p class="font-body text-base font-bold text-gray-800 leading-relaxed">
+                    Fokus gaya streetwear kami mengutamakan material kuat, grafis kontras tinggi, dan struktur desain
+                    yang solid. Tanpa basa-basi. Hanya estetika murni.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="px-6 md:px-12 py-16 border-t-4 border-on-background bg-surface-container">
+        <div class="max-w-3xl mx-auto">
+            <h2
+                class="font-display text-4xl font-black uppercase tracking-tighter mb-8 text-center text-on-background bg-[#FFDE03] border-4 border-on-background p-4 inline-block transform -rotate-2 brutalist-shadow mx-auto block w-max">
+                HUBUNGI KAMI
+            </h2>
+
+            <form id="contactForm"
+                class="bg-white border-4 border-on-background p-8 md:p-10 brutalist-shadow flex flex-col gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-display font-bold uppercase text-sm">Nama Anda</label>
+                        <input type="text" required
+                            class="border-4 border-on-background p-3 outline-none focus:bg-[#FFDE03] transition-colors font-body font-bold w-full"
+                            placeholder="NAMA LENGKAP">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-display font-bold uppercase text-sm">Email Anda</label>
+                        <input type="email" required
+                            class="border-4 border-on-background p-3 outline-none focus:bg-[#FFDE03] transition-colors font-body font-bold w-full"
+                            placeholder="EMAIL@CONTOH.COM">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-display font-bold uppercase text-sm">Subjek</label>
+                    <select
+                        class="border-4 border-on-background p-3 outline-none focus:bg-[#FFDE03] transition-colors font-body font-bold w-full appearance-none rounded-none cursor-pointer">
+                        <option>Pertanyaan Pesanan</option>
+                        <option>Pengembalian & Dana</option>
+                        <option>Kolaborasi Bisnis</option>
+                        <option>Kritik & Keluhan</option>
+                    </select>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="font-display font-bold uppercase text-sm">Pesan</label>
+                    <textarea required rows="4"
+                        class="border-4 border-on-background p-3 outline-none focus:bg-[#FFDE03] transition-colors font-body font-bold resize-none w-full"
+                        placeholder="TULIS PESAN ANDA DI SINI..."></textarea>
+                </div>
+                <button type="submit"
+                    class="w-full bg-[#FF8A00] text-on-background mt-2 py-4 font-display text-lg font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">
+                    KIRIM PESAN
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Component -->
+    <footer class="bg-on-background text-surface border-t-4 border-on-background pt-12 pb-8 px-6 md:px-12 mt-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <!-- Brand Column -->
+            <div class="flex flex-col gap-3">
+                <span class="font-display text-2xl font-black uppercase text-[#FFDE03] tracking-tighter">DRM.SHOP</span>
+                <p class="text-gray-400 font-bold text-xs leading-relaxed max-w-xs">
+                    PAKAIAN KONTRAS TINGGI UNTUK MEREKA YANG MENOLAK TAMPIL BIASA. DIBANGUN BERBEDA.
+                </p>
+            </div>
+
+            <!-- Column 1: Help / Support -->
+            <div class="flex flex-col gap-2">
+                <h4 class="font-display font-black text-[#00ccf9] uppercase text-sm mb-2">Help / Support</h4>
+                <button onclick="toggleModal('faqModal', true)"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">FAQ
+                    (Pertanyaan Umum)</button>
+                <button onclick="toggleModal('paymentModal', true)"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">Payment
+                    Confirmation (Konfirmasi Pembayaran)</button>
+                <button onclick="toggleModal('shippingModal', true)"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">Shipping
+                    Information (Informasi Pengiriman)</button>
+                <button onclick="toggleModal('returnModal', true)"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">Return
+                    & Exchange (Kebijakan Penukaran)</button>
+                <button onclick="toggleModal('sizeModal', true)"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">Size
+                    Guide (Panduan Ukuran)</button>
+            </div>
+
+            <!-- Column 2: Company -->
+            <div class="flex flex-col gap-2">
+                <h4 class="font-display font-black text-[#FF8A00] uppercase text-sm mb-2">Company</h4>
+                <a href="#about"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">About
+                    Us (Tentang Kami)</a>
+                <a href="#contact"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">Contact
+                    Us (Hubungi Kami)</a>
+                <button onclick="toggleModal('storeModal', true)"
+                    class="text-left text-xs font-bold text-gray-400 hover:text-[#FFDE03] transition-colors uppercase">Store
+                    Locator (Lokasi Toko Offline)</button>
+            </div>
+
+            <!-- Column 3: Newsletter -->
+            <div class="flex flex-col gap-3">
+                <h4 class="font-display font-black text-surface uppercase text-sm">NEWSLETTER</h4>
+                <p class="text-xs text-gray-400 font-bold">Dapatkan update rilisan terbatas & diskon spesial langsung di
+                    email Anda.</p>
+                <form id="newsletterForm" class="flex">
+                    <input type="email" required placeholder="EMAIL ANDA"
+                        class="border-2 border-r-0 border-white bg-transparent p-2 text-xs outline-none font-bold text-white w-full">
+                    <button type="submit"
+                        class="bg-[#FFDE03] text-on-background px-4 py-2 border-2 border-white text-xs font-black uppercase hover:bg-[#FF8A00] transition-colors">IKUT</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="border-t-4 border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-gray-500 font-bold text-xs text-center md:text-left">© 2026 DRM.SHOP — DESIGNED WITH NO
+                COMPROMISE</p>
+            <div class="flex gap-4">
+                <span class="text-gray-500 font-bold text-xs">DELPITO / RIO / MAULANA</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS SECTION -->
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-start justify-center pt-24 px-4">
+        <div class="bg-white border-4 border-on-background w-full max-w-2xl p-6 brutalist-shadow relative">
+            <button onclick="toggleSearchModal(false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3 class="font-display text-2xl font-black uppercase mb-4 tracking-tighter">Cari Produk</h3>
+            <div class="flex gap-2">
+                <input type="text" id="searchInput"
+                    class="border-4 border-on-background p-3 w-full outline-none focus:bg-[#FFDE03] font-body font-bold text-on-background"
+                    placeholder="Ketik nama produk..." oninput="handleSearchInput(this.value)">
+                <button onclick="triggerSearch()"
+                    class="bg-[#FF8A00] text-on-background border-4 border-on-background px-6 font-display font-black uppercase brutalist-shadow-sm brutalist-button-hover transition-all">Cari</button>
+            </div>
+            <div class="mt-4 max-h-[300px] overflow-y-auto hidden flex flex-col gap-2" id="searchResultsContainer">
+                <!-- Search results injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div id="accountModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div class="bg-white border-4 border-on-background w-full max-w-md p-6 brutalist-shadow relative">
+            <button onclick="toggleAccountModal(false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+
+            <!-- Auth Form State (Not Logged In) -->
+            <div id="authContainer">
+                <div class="flex border-b-4 border-on-background mb-6">
+                    <button id="tabLoginBtn" onclick="switchAuthTab('login')"
+                        class="flex-1 py-2 font-display font-black text-lg uppercase bg-[#FFDE03] border-r-4 border-on-background">Login</button>
+                    <button id="tabRegisterBtn" onclick="switchAuthTab('register')"
+                        class="flex-1 py-2 font-display font-black text-lg uppercase hover:bg-gray-100 transition-colors">Daftar</button>
+                </div>
+
+                <!-- Login Panel -->
+                <form id="loginForm" class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Email</label>
+                        <input type="email" id="loginEmail" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="email@contoh.com" value="customer@drm.shop">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Password</label>
+                        <input type="password" id="loginPassword" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="••••••••" value="password123">
+                    </div>
+                    <button type="submit"
+                        class="bg-[#00ccf9] text-on-background py-3 mt-2 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Masuk
+                        Akun</button>
+                </form>
+
+                <!-- Register Panel -->
+                <form id="registerForm" class="flex flex-col gap-4 hidden">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Nama Lengkap</label>
+                        <input type="text" id="regName" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="NAMA LENGKAP">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Email</label>
+                        <input type="email" id="regEmail" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="email@contoh.com">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Password</label>
+                        <input type="password" id="regPassword" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="••••••••">
+                    </div>
+                    <button type="submit"
+                        class="bg-[#FF8A00] text-on-background py-3 mt-2 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Daftar
+                        Sekarang</button>
+                </form>
+            </div>
+
+            <!-- User Profile State (Logged In) -->
+            <div id="profileContainer" class="hidden flex flex-col gap-4">
+                <h3
+                    class="font-display text-2xl font-black uppercase tracking-tighter mb-2 border-b-4 border-on-background pb-2">
+                    Profil Saya</h3>
+                <div class="bg-[#FFDE03] border-4 border-on-background p-4 brutalist-shadow-sm mb-2">
+                    <p class="font-display font-black text-lg" id="profileName">USER DRM</p>
+                    <p class="font-bold text-sm text-gray-700" id="profileEmail">customer@drm.shop</p>
+                    <div class="mt-2 text-xs font-bold bg-white border-2 border-on-background inline-block px-2 py-0.5">
+                        MEMBER GOLD</div>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold text-sm uppercase mb-2">Riwayat Pesanan</h4>
+                    <div class="max-h-[150px] overflow-y-auto flex flex-col gap-2 border-2 border-on-background p-2 bg-gray-50 animate-pulse"
+                        id="profileOrders">
+                        <p class="text-xs text-gray-500 font-bold text-center py-4">Belum ada riwayat pesanan.</p>
+                    </div>
+                </div>
+                <button onclick="handleLogout()"
+                    class="bg-[#ba1a1a] text-white py-2 mt-4 font-display text-sm font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Keluar
+                    Akun</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Modal -->
+    <div id="faqModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-2xl p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('faqModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#FFDE03] border-4 border-on-background p-2 inline-block">
+                FAQ / PERTANYAAN UMUM</h3>
+
+            <div class="flex flex-col gap-4 text-on-background">
+                <!-- Q1 -->
+                <div class="border-4 border-on-background p-4 bg-gray-50">
+                    <h4 class="font-display font-black text-base uppercase mb-2 flex items-center justify-between cursor-pointer"
+                        onclick="toggleFaqAccordion(1)">
+                        <span>Bagaimana cara melacak pesanan saya?</span>
+                        <span class="material-symbols-outlined transform transition-transform"
+                            id="faq-arrow-1">expand_more</span>
+                    </h4>
+                    <p class="font-bold text-xs text-gray-700 hidden mt-2" id="faq-ans-1">Setelah pembayaran
+                        dikonfirmasi, kami akan mengirimkan nomor resi pengiriman melalui email Anda. Anda dapat
+                        melacaknya melalui situs web kurir yang bersangkutan (JNE, J&T, SiCepat).</p>
+                </div>
+                <!-- Q2 -->
+                <div class="border-4 border-on-background p-4 bg-gray-50">
+                    <h4 class="font-display font-black text-base uppercase mb-2 flex items-center justify-between cursor-pointer"
+                        onclick="toggleFaqAccordion(2)">
+                        <span>Berapa lama waktu pengiriman barang?</span>
+                        <span class="material-symbols-outlined transform transition-transform"
+                            id="faq-arrow-2">expand_more</span>
+                    </h4>
+                    <p class="font-bold text-xs text-gray-700 hidden mt-2" id="faq-ans-2">Untuk daerah Jabodetabek
+                        biasanya memakan waktu 1-3 hari kerja. Di luar wilayah tersebut dapat memakan waktu 3-7 hari
+                        kerja tergantung opsi kurir yang dipilih.</p>
+                </div>
+                <!-- Q3 -->
+                <div class="border-4 border-on-background p-4 bg-gray-50">
+                    <h4 class="font-display font-black text-base uppercase mb-2 flex items-center justify-between cursor-pointer"
+                        onclick="toggleFaqAccordion(3)">
+                        <span>Apakah produk yang habis akan diproduksi kembali?</span>
+                        <span class="material-symbols-outlined transform transition-transform"
+                            id="faq-arrow-3">expand_more</span>
+                    </h4>
+                    <p class="font-bold text-xs text-gray-700 hidden mt-2" id="faq-ans-3">Sebagian besar koleksi kami
+                        diproduksi secara terbatas (limited drop) untuk menjaga eksklusivitas brand. Namun, koleksi
+                        "KEBUTUHAN MENDASAR" seringkali kami restock secara berkala.</p>
+                </div>
+                <!-- Q4 -->
+                <div class="border-4 border-on-background p-4 bg-gray-50">
+                    <h4 class="font-display font-black text-base uppercase mb-2 flex items-center justify-between cursor-pointer"
+                        onclick="toggleFaqAccordion(4)">
+                        <span>Apakah bisa melakukan penukaran ukuran (size)?</span>
+                        <span class="material-symbols-outlined transform transition-transform"
+                            id="faq-arrow-4">expand_more</span>
+                    </h4>
+                    <p class="font-bold text-xs text-gray-700 hidden mt-2" id="faq-ans-4">Ya, penukaran ukuran
+                        diperbolehkan maksimal 3 hari setelah barang diterima, dengan catatan tag label masih terpasang
+                        dan produk belum dicuci/digunakan. Silakan baca detail di menu "Return & Exchange Policy".</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Confirmation Modal -->
+    <div id="paymentModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-lg p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('paymentModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#00ccf9] border-4 border-on-background p-2 inline-block">
+                KONFIRMASI PEMBAYARAN</h3>
+
+            <form id="paymentConfirmForm" class="flex flex-col gap-4 text-on-background">
+                <div class="flex flex-col gap-1">
+                    <label class="font-display font-bold uppercase text-xs">ID PESANAN</label>
+                    <input type="text" id="confirmOrderId" required
+                        class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                        placeholder="Contoh: DRM-82736">
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-display font-bold uppercase text-xs">NAMA PENGIRIM (REKENING)</label>
+                    <input type="text" id="confirmSenderName" required
+                        class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                        placeholder="NAMA PEMILIK REKENING">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">TRANSFER KE BANK</label>
+                        <select id="confirmBank"
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm bg-white cursor-pointer">
+                            <option>BCA (129-009-3829)</option>
+                            <option>MANDIRI (112-00-29384-2)</option>
+                            <option>BNI (089-2938-234)</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">JUMLAH TRANSFER (RP)</label>
+                        <input type="number" id="confirmAmount" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="Contoh: 450000">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="font-display font-bold uppercase text-xs">BUKTI TRANSFER (FOTO/TANGKAPAN
+                        LAYAR)</label>
+                    <input type="file" required
+                        class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-xs bg-white cursor-pointer file:mr-4 file:py-1 file:px-4 file:border-2 file:border-on-background file:bg-[#FFDE03] file:font-black file:text-xs hover:file:bg-[#FF8A00]">
+                </div>
+                <button type="submit"
+                    class="bg-[#FF8A00] text-on-background py-3 mt-2 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Kirim
+                    Konfirmasi</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Shipping Info Modal -->
+    <div id="shippingModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-lg p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('shippingModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#FF8A00] border-4 border-on-background p-2 inline-block">
+                INFORMASI PENGIRIMAN</h3>
+            <div class="font-body text-sm font-bold text-gray-800 flex flex-col gap-4 leading-relaxed">
+                <p>Kami mengirim ke seluruh Indonesia menggunakan mitra logistik terbaik dengan asuransi pengiriman
+                    penuh:</p>
+                <ul class="list-disc pl-5 flex flex-col gap-2">
+                    <li><strong>JNE (Reguler / YES)</strong>: Opsi pengiriman standar terpercaya dengan jangkauan
+                        terluas. Estimasi 2-4 hari.</li>
+                    <li><strong>J&T Express</strong>: Layanan cepat setiap hari tanpa libur. Estimasi 2-3 hari.</li>
+                    <li><strong>SiCepat (HALU / REG)</strong>: Pengiriman hemat dengan tarif kompetitif. Estimasi 3-5
+                        hari.</li>
+                </ul>
+                <div class="border-4 border-on-background p-4 bg-[#FFDE03] text-on-background mt-2 brutalist-shadow-sm">
+                    <p class="font-display font-black uppercase mb-1">JADWAL DROP PENGIRIMAN:</p>
+                    <p>Pesanan yang lunas sebelum pukul 15.00 WIB akan dikirim pada hari yang sama. Pesanan hari Minggu
+                        / Libur Nasional dikirim pada hari kerja berikutnya.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return & Exchange Modal -->
+    <div id="returnModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-lg p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('returnModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#ba1a1a] text-white border-4 border-on-background p-2 inline-block">
+                RETURN & EXCHANGE</h3>
+            <div class="font-body text-sm font-bold text-gray-800 flex flex-col gap-4 leading-relaxed">
+                <p>Kami berkomitmen penuh untuk menjamin kepuasan belanja Anda. Jika ukuran tidak pas atau terdapat
+                    cacat produksi, Anda dapat melakukan penukaran:</p>
+                <div class="border-4 border-on-background p-3 bg-gray-50 flex flex-col gap-2">
+                    <p><strong>1. SYARAT PENUKARAN:</strong></p>
+                    <ul class="list-disc pl-5 flex flex-col gap-1 text-xs text-gray-600">
+                        <li>Produk belum pernah dicuci/dipakai keluar rumah.</li>
+                        <li>Tag harga dan label original masih terpasang sempurna.</li>
+                        <li>Maksimal pengajuan adalah 3 hari sejak status paket diterima.</li>
+                    </ul>
+                </div>
+                <div class="border-4 border-on-background p-3 bg-gray-50 flex flex-col gap-2">
+                    <p><strong>2. PROSEDUR PENUKARAN:</strong></p>
+                    <ul class="list-disc pl-5 flex flex-col gap-1 text-xs text-gray-600">
+                        <li>Hubungi CS kami lewat form kontak dengan subjek "Pengembalian & Dana".</li>
+                        <li>Kirimkan video unboxing serta alasan penukaran Anda.</li>
+                        <li>Kirim produk kembali ke Warehouse DRM. Kami akan mengirimkan produk pengganti secara gratis
+                            (bila cacat produksi) atau dengan ongkir ditanggung pembeli (bila tukar size).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Guide Modal -->
+    <div id="sizeModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-lg p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('sizeModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#00ccf9] border-4 border-on-background p-2 inline-block">
+                PANDUAN UKURAN (SIZE GUIDE)</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left font-body font-bold text-xs border-4 border-on-background bg-white mb-4">
+                    <thead>
+                        <tr class="bg-[#FFDE03] border-b-4 border-on-background">
+                            <th class="p-3 border-r-2 border-on-background">SIZE</th>
+                            <th class="p-3 border-r-2 border-on-background">CHEST / LEBAR (CM)</th>
+                            <th class="p-3 border-r-2 border-on-background">LENGTH / PANJANG (CM)</th>
+                            <th class="p-3">SLEEVE / LENGAN (CM)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b-2 border-on-background">
+                            <td class="p-3 border-r-2 border-on-background bg-gray-50">S</td>
+                            <td class="p-3 border-r-2 border-on-background">50</td>
+                            <td class="p-3 border-r-2 border-on-background">70</td>
+                            <td class="p-3">21</td>
+                        </tr>
+                        <tr class="border-b-2 border-on-background">
+                            <td class="p-3 border-r-2 border-on-background bg-gray-50">M</td>
+                            <td class="p-3 border-r-2 border-on-background">53</td>
+                            <td class="p-3 border-r-2 border-on-background">73</td>
+                            <td class="p-3">22</td>
+                        </tr>
+                        <tr class="border-b-2 border-on-background">
+                            <td class="p-3 border-r-2 border-on-background bg-gray-50">L</td>
+                            <td class="p-3 border-r-2 border-on-background">56</td>
+                            <td class="p-3 border-r-2 border-on-background">75</td>
+                            <td class="p-3">23</td>
+                        </tr>
+                        <tr class="border-b-2 border-on-background">
+                            <td class="p-3 border-r-2 border-on-background bg-gray-50">XL</td>
+                            <td class="p-3 border-r-2 border-on-background">59</td>
+                            <td class="p-3 border-r-2 border-on-background">78</td>
+                            <td class="p-3">24</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 border-r-2 border-on-background bg-gray-50">XXL</td>
+                            <td class="p-3 border-r-2 border-on-background">62</td>
+                            <td class="p-3 border-r-2 border-on-background">80</td>
+                            <td class="p-3">25</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-[11px] text-gray-500 font-bold">* Ukuran toleransi ±1-2 cm karena proses jahit masal.</p>
+        </div>
+    </div>
+
+    <!-- Store Locator Modal -->
+    <div id="storeModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-xl p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('storeModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#FFDE03] border-4 border-on-background p-2 inline-block">
+                LOKASI TOKO OFFLINE</h3>
+            <div class="flex flex-col gap-4 text-on-background">
+                <!-- Store 1 -->
+                <div
+                    class="border-4 border-on-background p-4 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h4 class="font-display font-black text-base uppercase">DRM FLAGSHIP STORE JAKARTA</h4>
+                        <p class="text-xs text-gray-700 mt-1 font-bold">Jl. Kemang Raya No. 45, Jakarta Selatan</p>
+                        <p class="text-xs text-gray-500 mt-1 font-bold">Jam Buka: 10:00 - 22:00 WIB</p>
+                    </div>
+                    <button
+                        class="bg-[#00ccf9] border-2 border-on-background px-3 py-1 text-xs font-black uppercase brutalist-shadow-sm hover:translate-y-0.5"
+                        onclick="showToast('RUTE DIARAHKAN KE MAPS')">LIHAT PETA</button>
+                </div>
+                <!-- Store 2 -->
+                <div
+                    class="border-4 border-on-background p-4 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h4 class="font-display font-black text-base uppercase">DRM BRAND STORE BANDUNG</h4>
+                        <p class="text-xs text-gray-700 mt-1 font-bold">Jl. Dago No. 120, Bandung</p>
+                        <p class="text-xs text-gray-500 mt-1 font-bold">Jam Buka: 09:00 - 21:00 WIB</p>
+                    </div>
+                    <button
+                        class="bg-[#00ccf9] border-2 border-on-background px-3 py-1 text-xs font-black uppercase brutalist-shadow-sm hover:translate-y-0.5"
+                        onclick="showToast('RUTE DIARAHKAN KE MAPS')">LIHAT PETA</button>
+                </div>
+                <!-- Store 3 -->
+                <div
+                    class="border-4 border-on-background p-4 bg-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h4 class="font-display font-black text-base uppercase">DRM SPACE BALI</h4>
+                        <p class="text-xs text-gray-700 mt-1 font-bold">Jl. Petitenget No. 88, Seminyak, Bali</p>
+                        <p class="text-xs text-gray-500 mt-1 font-bold">Jam Buka: 11:00 - 23:00 WITA</p>
+                    </div>
+                    <button
+                        class="bg-[#00ccf9] border-2 border-on-background px-3 py-1 text-xs font-black uppercase brutalist-shadow-sm hover:translate-y-0.5"
+                        onclick="showToast('RUTE DIARAHKAN KE MAPS')">LIHAT PETA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lookbook Modal -->
+    <div id="lookbookModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-4xl p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleModal('lookbookModal', false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#FFDE03] border-4 border-on-background p-2 inline-block">
+                JOURNAL / LOOKBOOK</h3>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-on-background">
+                <!-- Look 1 -->
+                <div class="border-4 border-on-background brutalist-shadow-sm bg-white overflow-hidden flex flex-col">
+                    <div class="h-64 overflow-hidden bg-gray-200 border-b-4 border-on-background">
+                        <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                            src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=60"
+                            alt="Vol. 04">
+                    </div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold text-gray-500">EDISI JUNI 2026</span>
+                        <h4 class="font-display font-black text-xl uppercase mt-1 mb-2">LOOKBOOK VOL. 04: DISTORSI KOTA
+                        </h4>
+                        <p class="text-xs text-gray-700 font-bold leading-relaxed">Merayakan kekacauan urban dengan
+                            warna kontras tinggi dan siluet tegas. Menembus batas estetika kasual konvensional.</p>
+                    </div>
+                </div>
+                <!-- Look 2 -->
+                <div class="border-4 border-on-background brutalist-shadow-sm bg-white overflow-hidden flex flex-col">
+                    <div class="h-64 overflow-hidden bg-gray-200 border-b-4 border-on-background">
+                        <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300"
+                            src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=600&auto=format&fit=crop&q=60"
+                            alt="Vol. 03">
+                    </div>
+                    <div class="p-4">
+                        <span class="text-xs font-bold text-gray-500">EDISI MEI 2026</span>
+                        <h4 class="font-display font-black text-xl uppercase mt-1 mb-2">LOOKBOOK VOL. 03: BRUTALISME
+                            MURNI</h4>
+                        <p class="text-xs text-gray-700 font-bold leading-relaxed">Kembali ke bentuk dasar. Tekstur
+                            kaku, material kanvas tebal, dan jahitan kontras menonjolkan kekuatan struktural produk
+                            kami.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="fixed inset-0 z-[120] hidden bg-black/60 flex items-center justify-center px-4">
+        <div
+            class="bg-white border-4 border-on-background w-full max-w-lg p-6 brutalist-shadow relative max-h-[85vh] overflow-y-auto">
+            <button onclick="toggleCheckoutModal(false)"
+                class="absolute top-4 right-4 p-1 border-2 border-on-background bg-white hover:bg-on-background hover:text-white transition-colors">
+                <span class="material-symbols-outlined block text-[18px]">close</span>
+            </button>
+            <h3
+                class="font-display text-2xl font-black uppercase mb-6 tracking-tighter bg-[#FF8A00] border-4 border-on-background p-2 inline-block">
+                CHECKOUT / PEMBAYARAN</h3>
+
+            <!-- Step Indicators -->
+            <div class="flex justify-between items-center mb-6 text-center border-b-4 border-on-background pb-3">
+                <div id="checkoutStepIndicator1"
+                    class="flex-1 font-display font-black text-[10px] uppercase text-[#FF8A00]">1. PENGIRIMAN</div>
+                <div id="checkoutStepIndicator2"
+                    class="flex-1 font-display font-black text-[10px] uppercase text-gray-400">2. PEMBAYARAN</div>
+                <div id="checkoutStepIndicator3"
+                    class="flex-1 font-display font-black text-[10px] uppercase text-gray-400">3. KONFIRMASI</div>
+            </div>
+
+            <!-- Step 1: Address Form -->
+            <div id="checkoutStep1" class="text-on-background">
+                <form id="checkoutAddressForm" class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Nama Penerima</label>
+                        <input type="text" id="checkoutName" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="NAMA LENGKAP">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Nomor HP</label>
+                        <input type="tel" id="checkoutPhone" required
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm"
+                            placeholder="08XXXXXXXXXX">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Alamat Pengiriman Lengkap</label>
+                        <textarea id="checkoutAddress" required rows="3"
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm resize-none"
+                            placeholder="NAMA JALAN, NOMOR RUMAH, KECAMATAN, KOTA, KODE POS"></textarea>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="font-display font-bold uppercase text-xs">Pilih Kurir</label>
+                        <select id="checkoutCourier"
+                            class="border-4 border-on-background p-2 outline-none focus:bg-[#FFDE03] font-body font-bold text-sm bg-white cursor-pointer"
+                            onchange="updateCheckoutTotal()">
+                            <option value="JNE">JNE Reguler (Rp15.000)</option>
+                            <option value="J&T">J&T Express (Rp18.000)</option>
+                            <option value="SICEPAT">SiCepat HALU (Rp12.000)</option>
+                        </select>
+                    </div>
+                    <button type="submit"
+                        class="bg-[#00ccf9] text-on-background py-3 mt-2 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Lanjut
+                        ke Pembayaran</button>
+                </form>
+            </div>
+
+            <!-- Step 2: Payment Method -->
+            <div id="checkoutStep2" class="hidden text-on-background">
+                <form id="checkoutPaymentForm" class="flex flex-col gap-4">
+                    <label class="font-display font-bold uppercase text-sm mb-2">Pilih Metode Pembayaran:</label>
+
+                    <div class="flex flex-col gap-3">
+                        <label
+                            class="border-4 border-on-background p-3 flex items-center gap-3 bg-white brutalist-shadow-sm cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="paymentMethod" value="BCA" checked
+                                class="border-2 border-on-background text-[#00ccf9] focus:ring-0">
+                            <div class="flex flex-col">
+                                <span class="font-display font-black text-sm">BCA BANK TRANSFER</span>
+                                <span class="text-xs text-gray-500 font-bold">Transfer manual ke Rek. 129-009-3829 a.n
+                                    DRM SHOP</span>
+                            </div>
+                        </label>
+                        <label
+                            class="border-4 border-on-background p-3 flex items-center gap-3 bg-white brutalist-shadow-sm cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="paymentMethod" value="MANDIRI"
+                                class="border-2 border-on-background text-[#00ccf9] focus:ring-0">
+                            <div class="flex flex-col">
+                                <span class="font-display font-black text-sm">MANDIRI BANK TRANSFER</span>
+                                <span class="text-xs text-gray-500 font-bold">Transfer manual ke Rek. 112-00-29384-2 a.n
+                                    DRM SHOP</span>
+                            </div>
+                        </label>
+                        <label
+                            class="border-4 border-on-background p-3 flex items-center gap-3 bg-white brutalist-shadow-sm cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="paymentMethod" value="QRIS"
+                                class="border-2 border-on-background text-[#00ccf9] focus:ring-0">
+                            <div class="flex flex-col">
+                                <span class="font-display font-black text-sm">QRIS INSTAN (GOPAY, OVO, DANA)</span>
+                                <span class="text-xs text-gray-500 font-bold">Scan kode QR yang digenerasikan
+                                    otomatis</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="flex gap-2 mt-4">
+                        <button type="button" onclick="switchCheckoutStep(1)"
+                            class="flex-1 bg-gray-200 text-on-background py-3 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Kembali</button>
+                        <button type="submit"
+                            class="flex-1 bg-[#00ccf9] text-on-background py-3 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Lanjut
+                            ke Review</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Review & Finalize -->
+            <div id="checkoutStep3" class="hidden flex flex-col gap-4 text-on-background">
+                <div class="border-4 border-on-background p-4 bg-gray-50">
+                    <h4 class="font-display font-black text-sm uppercase mb-2 border-b-2 border-on-background pb-1">
+                        Detail Pengiriman</h4>
+                    <p class="text-xs font-bold" id="reviewShipName">Nama: -</p>
+                    <p class="text-xs font-bold" id="reviewShipPhone">HP: -</p>
+                    <p class="text-xs font-bold" id="reviewShipAddress">Alamat: -</p>
+                    <p class="text-xs font-bold text-gray-600 mt-1" id="reviewShipCourier">Kurir: -</p>
+                </div>
+
+                <div class="border-4 border-on-background p-4 bg-gray-50">
+                    <h4 class="font-display font-black text-sm uppercase mb-2 border-b-2 border-on-background pb-1">
+                        Rincian Belanja</h4>
+                    <div id="reviewItemsList"
+                        class="flex flex-col gap-1 max-h-[100px] overflow-y-auto mb-2 text-xs font-bold">
+                        <!-- Items list -->
+                    </div>
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span>Subtotal Produk:</span>
+                        <span id="reviewSubtotal">Rp0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs font-bold">
+                        <span>Ongkos Kirim:</span>
+                        <span id="reviewCourierFee">Rp0</span>
+                    </div>
+                    <div
+                        class="flex justify-between items-center text-sm font-black border-t-2 border-on-background pt-2 mt-2">
+                        <span>TOTAL AKHIR:</span>
+                        <span id="reviewTotal">Rp0</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="switchCheckoutStep(2)"
+                        class="flex-1 bg-gray-200 text-on-background py-3 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Kembali</button>
+                    <button onclick="finalizeOrder()"
+                        class="flex-1 bg-[#FF8A00] text-on-background py-3 font-display font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">BUAT
+                        PESANAN</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Invoice (Success) -->
+            <div id="checkoutStep4" class="hidden flex flex-col gap-4 text-on-background">
+                <div class="border-4 border-on-background p-4 bg-[#FFDE03] text-center brutalist-shadow-sm">
+                    <span class="material-symbols-outlined text-[48px] text-green-700">check_circle</span>
+                    <h4 class="font-display font-black text-lg uppercase mt-2">PESANAN BERHASIL DIBUAT!</h4>
+                    <p class="font-display font-black text-xl mt-1" id="invoiceOrderId">ID: DRM-XXXXX</p>
+                </div>
+
+                <div
+                    class="border-4 border-on-background p-4 bg-gray-50 text-xs font-bold leading-relaxed flex flex-col gap-2">
+                    <p class="font-black text-sm uppercase">PANDUAN PEMBAYARAN:</p>
+                    <p id="invoicePaymentDetails">Silakan transfer nominal persis ke rekening BCA:
+                        <strong>129-009-3829</strong> a.n DRM SHOP.
+                    </p>
+                    <p>Total yang harus dibayar: <strong class="text-sm font-black text-red-600"
+                            id="invoiceTotal">Rp0</strong></p>
+                    <p class="text-gray-500">Simpan bukti transfer dan lakukan konfirmasi agar pesanan Anda segera kami
+                        proses.</p>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <button onclick="goToPaymentConfirmation()"
+                        class="w-full bg-[#00ccf9] text-on-background py-3 font-display font-black text-sm uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">KONFIRMASI
+                        PEMBAYARAN SEKARANG</button>
+                    <button onclick="closeCheckoutAndReset()"
+                        class="w-full bg-white text-on-background py-2 font-display font-bold text-xs uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all">Kembali
+                        Belanja</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- Product Database ---
+        const products = [
+            // Tops - T-Shirts
+            {
+                id: 1,
+                name: "KAOS DISTORSI URBAN",
+                price: 450000,
+                image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&auto=format&fit=crop&q=80",
+                category: "tops",
+                subcategory: "t-shirts",
+                isNew: true,
+                isSale: false,
+                originalPrice: 450000,
+                sizes: ["S", "M", "L", "XL"]
+            },
+            {
+                id: 2,
+                name: "KAOS BRUTAL V1 BLACK",
+                price: 380000,
+                image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500&auto=format&fit=crop&q=80",
+                category: "tops",
+                subcategory: "t-shirts",
+                isNew: false,
+                isSale: true,
+                originalPrice: 480000,
+                sizes: ["M", "L", "XL"]
+            },
+            // Tops - Shirts
+            {
+                id: 3,
+                name: "KEMEJA FLANEL HITAM",
+                price: 590000,
+                image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?w=500&auto=format&fit=crop&q=80",
+                category: "tops",
+                subcategory: "shirts",
+                isNew: true,
+                isSale: false,
+                originalPrice: 590000,
+                sizes: ["S", "M", "L"]
+            },
+            {
+                id: 4,
+                name: "KEMEJA KUBISME RETRO",
+                price: 650000,
+                image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500&auto=format&fit=crop&q=80",
+                category: "tops",
+                subcategory: "shirts",
+                isNew: false,
+                isSale: false,
+                originalPrice: 650000,
+                sizes: ["M", "L", "XL"]
+            },
+            // Outerwear - Jackets
+            {
+                id: 5,
+                name: "JAKET DENIM KAKU 15OZ",
+                price: 950000,
+                image: "https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500&auto=format&fit=crop&q=80",
+                category: "outerwear",
+                subcategory: "jackets",
+                isNew: true,
+                isSale: false,
+                originalPrice: 950000,
+                sizes: ["M", "L"]
+            },
+            {
+                id: 6,
+                name: "PARKA SINTETIS DISTORSI",
+                price: 1800000,
+                image: "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=500&auto=format&fit=crop&q=80",
+                category: "outerwear",
+                subcategory: "jackets",
+                isNew: false,
+                isSale: true,
+                originalPrice: 2200000,
+                sizes: ["S", "M", "L"]
+            },
+            // Outerwear - Hoodies & Pullovers
+            {
+                id: 7,
+                name: "HOODIE OVERSIZE ABU MURNI",
+                price: 750000,
+                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&auto=format&fit=crop&q=80",
+                category: "outerwear",
+                subcategory: "hoodies",
+                isNew: true,
+                isSale: false,
+                originalPrice: 750000,
+                sizes: ["S", "M", "L", "XL"]
+            },
+            // Outerwear - Sweaters & Cardigans
+            {
+                id: 8,
+                name: "KARDIGAN RAJUT HITAM VOID",
+                price: 820000,
+                image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&auto=format&fit=crop&q=80",
+                category: "outerwear",
+                subcategory: "sweaters",
+                isNew: false,
+                isSale: false,
+                originalPrice: 820000,
+                sizes: ["M", "L"]
+            },
+            // Bottoms - Long Pants
+            {
+                id: 9,
+                name: "CARGO PANTS KANVAS HITAM",
+                price: 780000,
+                image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&auto=format&fit=crop&q=80",
+                category: "bottoms",
+                subcategory: "longpants",
+                isNew: false,
+                isSale: true,
+                originalPrice: 980000,
+                sizes: ["28", "30", "32", "34"]
+            },
+            {
+                id: 10,
+                name: "DENIM LOOSE-FIT INDIGO 14OZ",
+                price: 850000,
+                image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500&auto=format&fit=crop&q=80",
+                category: "bottoms",
+                subcategory: "longpants",
+                isNew: true,
+                isSale: false,
+                originalPrice: 850000,
+                sizes: ["28", "30", "32", "34"]
+            },
+            // Bottoms - Short Pants
+            {
+                id: 11,
+                name: "SHORTS CORDUROY COKLAT MUD",
+                price: 450000,
+                image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&auto=format&fit=crop&q=80",
+                category: "bottoms",
+                subcategory: "shortpants",
+                isNew: false,
+                isSale: false,
+                originalPrice: 450000,
+                sizes: ["S", "M", "L"]
+            },
+            // Accessories - Headwear
+            {
+                id: 12,
+                name: "BEANIE HITAM TEBAL VOID",
+                price: 220000,
+                image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=500&auto=format&fit=crop&q=80",
+                category: "accessories",
+                subcategory: "headwear",
+                isNew: false,
+                isSale: false,
+                originalPrice: 220000,
+                sizes: ["OS"]
+            },
+            {
+                id: 13,
+                name: "TOPI SNAPBACK DISTORSI",
+                price: 250000,
+                image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&auto=format&fit=crop&q=80",
+                category: "accessories",
+                subcategory: "headwear",
+                isNew: true,
+                isSale: false,
+                originalPrice: 250000,
+                sizes: ["OS"]
+            },
+            // Accessories - Bags
+            {
+                id: 14,
+                name: "TAS KANVAS VOID OVERSIZE",
+                price: 350000,
+                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=80",
+                category: "accessories",
+                subcategory: "bags",
+                isNew: true,
+                isSale: false,
+                originalPrice: 350000,
+                sizes: ["OS"]
+            },
+            // Accessories - Socks
+            {
+                id: 15,
+                name: "KAOS KAKI LOGO KONTRAS (3-PACK)",
+                price: 150000,
+                image: "https://images.unsplash.com/photo-1582966772680-860e372bb558?w=500&auto=format&fit=crop&q=80",
+                category: "accessories",
+                subcategory: "socks",
+                isNew: false,
+                isSale: true,
+                originalPrice: 190000,
+                sizes: ["OS"]
+            },
+            // Accessories - Wallets & Belts
+            {
+                id: 16,
+                name: "DOMPET KULIT MENTAH VEG-TAN",
+                price: 490000,
+                image: "https://images.unsplash.com/photo-1627124765135-56130225b92c?w=500&auto=format&fit=crop&q=80",
+                category: "accessories",
+                subcategory: "wallets-belts",
+                isNew: true,
+                isSale: false,
+                originalPrice: 490000,
+                sizes: ["OS"]
+            }
+        ];
+
+        // --- State Management ---
+        let cart = [];
+        let isLoggedIn = false;
+        let currentUser = {
+            name: 'CUSTOMER DRM',
+            email: 'customer@drm.shop'
+        };
+        let checkoutStep = 1;
+        let courierFee = 15000;
+
+        let currentCategory = '';
+        let currentSubcategory = '';
+        let currentSpecial = '';
+        let currentSearch = '';
+
+        // --- Selectors ---
+        const cartBtn = document.getElementById('cartBtn');
+        const cartDrawer = document.getElementById('cartDrawer');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const closeCartBtn = document.getElementById('closeCartBtn');
+        const cartItemsContainer = document.getElementById('cartItems');
+        const emptyCartMsg = document.getElementById('emptyCartMsg');
+        const cartTotalEl = document.getElementById('cartTotal');
+        const cartCountText = document.getElementById('cartCountText');
+        const toastContainer = document.getElementById('toastContainer');
+        const contactForm = document.getElementById('contactForm');
+
+        // Mobile Menu Selectors
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        // --- Helper Format Rupiah ---
+        const formatRupiah = (number) => {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        }
+
+        // --- Helper Toast ---
+        const showToast = (message) => {
+            const toast = document.createElement('div');
+            toast.className = `bg-[#FFDE03] text-on-background border-4 border-on-background p-3 font-bold uppercase brutalist-shadow-sm toast-animation flex items-center gap-2 text-sm z-[220]`;
+            toast.innerHTML = `
+                <span class="material-symbols-outlined text-[20px]">check_circle</span>
+                <span>${message}</span>
+            `;
+            toastContainer.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        };
+
+        // --- Mobile Menu Logic ---
+        const toggleMobileMenu = (show) => {
+            if (show) {
+                mobileMenu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = '';
+            }
+        };
+
+        hamburgerBtn.addEventListener('click', () => toggleMobileMenu(true));
+        closeMenuBtn.addEventListener('click', () => toggleMobileMenu(false));
+
+        // --- General Modal Control ---
+        function toggleModal(modalId, show) {
+            const m = document.getElementById(modalId);
+            if (!m) return;
+            if (show) {
+                m.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                m.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // --- FAQ Accordion ---
+        function toggleFaqAccordion(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const arrow = document.getElementById(`faq-arrow-${id}`);
+
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                ans.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+
+        // --- Search Modal Logic ---
+        function toggleSearchModal(show) {
+            toggleModal('searchModal', show);
+            if (show) {
+                setTimeout(() => {
+                    document.getElementById('searchInput').focus();
+                }, 100);
+            }
+        }
+
+        function handleSearchInput(value) {
+            currentSearch = value;
+            const container = document.getElementById('searchResultsContainer');
+            if (!value.trim()) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            const filtered = products.filter(p => p.name.toLowerCase().includes(value.toLowerCase()));
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<p class="p-4 text-center font-bold text-xs text-gray-500 bg-gray-50 border-2 border-on-background brutalist-shadow-sm">PRODUK TIDAK DITEMUKAN.</p>`;
+            } else {
+                container.innerHTML = filtered.map(p => `
+                    <div onclick="selectSearchResult(${p.id})" class="flex justify-between items-center border-4 border-on-background p-2 bg-gray-50 hover:bg-[#FFDE03] cursor-pointer transition-colors brutalist-shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <img src="${p.image}" class="w-10 h-10 object-cover border-2 border-on-background">
+                            <div>
+                                <span class="font-display font-black text-xs uppercase text-on-background block">${p.name}</span>
+                                <span class="text-[10px] text-gray-600 block font-bold">${formatRupiah(p.price)}</span>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+                    </div>
+                `).join('');
+            }
+            container.classList.remove('hidden');
+        }
+
+        function selectSearchResult(id) {
+            toggleSearchModal(false);
+            const p = products.find(prod => prod.id === id);
+            if (p) {
+                currentCategory = p.category;
+                currentSubcategory = p.subcategory;
+                currentSearch = p.name;
+                renderProducts();
+                scrollToProducts();
+                updateFilterBar();
+            }
+        }
+
+        function triggerSearch() {
+            const val = document.getElementById('searchInput').value;
+            currentSearch = val;
+            currentCategory = '';
+            currentSubcategory = '';
+            currentSpecial = '';
+            toggleSearchModal(false);
+            renderProducts();
+            scrollToProducts();
+            updateFilterBar();
+        }
+
+        function openLookbookModal() {
+            toggleModal('lookbookModal', true);
+        }
+
+        // --- Account Modal & Auth Simulation ---
+        function toggleAccountModal(show) {
+            toggleModal('accountModal', show);
+            if (show) {
+                renderAccountState();
+            }
+        }
+
+        function renderAccountState() {
+            const authC = document.getElementById('authContainer');
+            const profC = document.getElementById('profileContainer');
+
+            if (isLoggedIn) {
+                authC.classList.add('hidden');
+                profC.classList.remove('hidden');
+
+                document.getElementById('profileName').innerText = currentUser.name.toUpperCase();
+                document.getElementById('profileEmail').innerText = currentUser.email.toLowerCase();
+                updateProfileOrders();
+            } else {
+                authC.classList.remove('hidden');
+                profC.classList.add('hidden');
+                switchAuthTab('login');
+            }
+        }
+
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabLogin = document.getElementById('tabLoginBtn');
+            const tabRegister = document.getElementById('tabRegisterBtn');
+
+            if (tab === 'login') {
+                loginForm.classList.remove('hidden');
+                registerForm.classList.add('hidden');
+                tabLogin.className = "flex-1 py-2 font-display font-black text-lg uppercase bg-[#FFDE03] border-r-4 border-on-background";
+                tabRegister.className = "flex-1 py-2 font-display font-black text-lg uppercase hover:bg-gray-100 transition-colors";
+            } else {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                tabLogin.className = "flex-1 py-2 font-display font-black text-lg uppercase hover:bg-gray-100 border-r-4 border-on-background transition-colors";
+                tabRegister.className = "flex-1 py-2 font-display font-black text-lg uppercase bg-[#FFDE03]";
+            }
+        }
+
+        function updateProfileOrders() {
+            const ordersContainer = document.getElementById('profileOrders');
+            const savedOrders = JSON.parse(sessionStorage.getItem('orders') || '[]');
+
+            if (savedOrders.length === 0) {
+                ordersContainer.innerHTML = `<p class="text-xs text-gray-500 font-bold text-center py-4">Belum ada riwayat pesanan.</p>`;
+            } else {
+                ordersContainer.innerHTML = savedOrders.map(order => `
+                    <div class="border-2 border-on-background p-2 bg-white text-[11px] font-bold flex flex-col gap-1 brutalist-shadow-sm mb-1">
+                        <div class="flex justify-between items-center border-b border-gray-200 pb-1">
+                            <span class="font-black text-[#FF8A00]">${order.id}</span>
+                            <span class="text-[9px] text-gray-400 font-normal">${order.date}</span>
+                        </div>
+                        <div class="text-[10px] text-gray-700 leading-tight">${order.items}</div>
+                        <div class="flex justify-between items-center mt-1 pt-1 border-t border-gray-100">
+                            <span>Total: ${formatRupiah(order.total)}</span>
+                            <span class="text-[9px] bg-red-100 text-red-700 px-1 py-0.5 border border-red-300 font-black uppercase">${order.status}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            isLoggedIn = true;
+            currentUser = {
+                name: 'CUSTOMER DRM',
+                email: document.getElementById('loginEmail').value
+            };
+            showToast('LOGIN BERHASIL!');
+            renderAccountState();
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            isLoggedIn = true;
+            currentUser = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value
+            };
+            showToast('PENDAFTARAN BERHASIL!');
+            renderAccountState();
+        });
+
+        function handleLogout() {
+            isLoggedIn = false;
+            showToast('ANDA TELAH KELUAR!');
+            renderAccountState();
+        }
+
+        // --- Cart Drawer Logic ---
+        const toggleCart = (show) => {
+            if (show) {
+                cartDrawer.classList.remove('translate-x-full');
+                cartOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            } else {
+                cartDrawer.classList.add('translate-x-full');
+                cartOverlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        };
+
+        cartBtn.addEventListener('click', () => toggleCart(true));
+        closeCartBtn.addEventListener('click', () => toggleCart(false));
+        cartOverlay.addEventListener('click', () => toggleCart(false));
+
+        const updateCartUI = () => {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountText.innerText = `Keranjang (${totalItems})`;
+
+            if (cart.length === 0) {
+                emptyCartMsg.style.display = 'block';
+                cartItemsContainer.innerHTML = '';
+                cartItemsContainer.appendChild(emptyCartMsg);
+            } else {
+                emptyCartMsg.style.display = 'none';
+                cartItemsContainer.innerHTML = cart.map((item, index) => `
+                    <div class="flex justify-between items-center border-4 border-on-background p-3 bg-white brutalist-shadow-sm mb-2 text-on-background">
+                        <div class="flex-grow">
+                            <h4 class="font-display font-black text-sm uppercase leading-tight">${item.name}</h4>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="px-1.5 py-0.5 border border-on-background bg-gray-100 text-[10px] font-bold uppercase">UKURAN: ${item.size}</span>
+                                <span class="text-xs font-bold text-gray-600">${formatRupiah(item.price)}</span>
+                            </div>
+                            <!-- Quantity Controls -->
+                            <div class="flex items-center gap-2 mt-2">
+                                <button onclick="changeQty(${index}, -1)" class="w-6 h-6 border-2 border-on-background bg-white hover:bg-gray-100 flex items-center justify-center text-xs font-black">-</button>
+                                <span class="text-xs font-black w-4 text-center">${item.qty}</span>
+                                <button onclick="changeQty(${index}, 1)" class="w-6 h-6 border-2 border-on-background bg-white hover:bg-gray-100 flex items-center justify-center text-xs font-black">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeCartItem(${index})" class="text-xs bg-on-background text-white p-2 border-2 border-on-background hover:bg-[#ba1a1a] transition-colors flex items-center justify-center ml-2">
+                            <span class="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            cartTotalEl.innerText = formatRupiah(total);
+        };
+
+        window.removeCartItem = (index) => {
+            const removedItem = cart[index];
+            cart.splice(index, 1);
+            updateCartUI();
+            showToast(`${removedItem.name} DIHAPUS`);
+        };
+
+        window.changeQty = (index, delta) => {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        };
+
+        // --- Product Rendering & Filtering Logic ---
+        function setCategoryFilter(category, subcategory = '') {
+            currentCategory = category;
+            currentSubcategory = subcategory;
+            currentSpecial = '';
+            currentSearch = '';
+
+            renderProducts();
+            scrollToProducts();
+            updateFilterBar();
+        }
+
+        function setSpecialFilter(special) {
+            currentCategory = '';
+            currentSubcategory = '';
+            currentSpecial = special;
+            currentSearch = '';
+
+            renderProducts();
+            scrollToProducts();
+            updateFilterBar();
+        }
+
+        function resetFilters() {
+            currentCategory = '';
+            currentSubcategory = '';
+            currentSpecial = '';
+            currentSearch = '';
+
+            renderProducts();
+            updateFilterBar();
+        }
+
+        function updateFilterBar() {
+            const bar = document.getElementById('activeFilterBar');
+            const tag = document.getElementById('activeFilterTag');
+            const title = document.querySelector('#arrivals h2');
+
+            let filterText = '';
+
+            if (currentCategory) {
+                filterText = currentCategory.toUpperCase();
+                if (currentSubcategory) {
+                    filterText += ` - ${currentSubcategory.toUpperCase()}`;
+                }
+            } else if (currentSpecial) {
+                filterText = currentSpecial === 'new' ? 'KOLEKSI TERBARU (NEW)' : 'PROMO / SALE';
+            } else if (currentSearch) {
+                filterText = `PENCARIAN: "${currentSearch.toUpperCase()}"`;
+            }
+
+            if (filterText) {
+                tag.innerText = filterText;
+                bar.classList.remove('hidden');
+                title.innerText = 'PRODUK TEMUAN';
+            } else {
+                bar.classList.add('hidden');
+                title.innerText = 'KOLEKSI TERBARU';
+            }
+        }
+
+        function scrollToProducts() {
+            const el = document.getElementById('arrivals');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function scrollToHome() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            resetFilters();
+        }
+
+        function selectProductSize(e, size) {
+            e.stopPropagation();
+            const siblingSizes = e.target.parentNode.querySelectorAll('.size-btn');
+            siblingSizes.forEach(s => {
+                s.classList.remove('bg-[#FFDE03]');
+                s.classList.add('bg-white');
+            });
+            e.target.classList.remove('bg-white');
+            e.target.classList.add('bg-[#FFDE03]');
+        }
+
+        function addProductToCart(productId, btn) {
+            const card = btn.closest('.brutalist-card-hover') || btn.closest('.bg-white');
+            const activeSizeBtn = card.querySelector('.size-btn.bg-\\[\\#FFDE03\\]');
+
+            const prod = products.find(p => p.id === productId);
+            let size = "OS"; // One Size default
+
+            if (activeSizeBtn) {
+                size = activeSizeBtn.innerText;
+            } else if (prod.sizes.length > 0 && prod.sizes[0] !== "OS") {
+                // If sizes available but not selected, select first size
+                size = prod.sizes[0];
+            }
+
+            const itemKey = `${prod.name} (${size})`;
+            const existingItem = cart.find(item => item.key === itemKey);
+            if (existingItem) {
+                existingItem.qty++;
+            } else {
+                cart.push({ key: itemKey, name: prod.name, price: prod.price, size: size, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`${prod.name} (${size}) DITAMBAHKAN`);
+
+            // Visual feedback
+            const originalText = btn.innerText;
+            btn.innerText = 'DITAMBAH!';
+            btn.classList.add('brutalist-button-active');
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove('brutalist-button-active');
+            }, 500);
+        }
+
+        function renderProducts() {
+            let filtered = [...products];
+
+            if (currentCategory) {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+            if (currentSubcategory) {
+                filtered = filtered.filter(p => p.subcategory === currentSubcategory);
+            }
+            if (currentSpecial) {
+                if (currentSpecial === 'new') {
+                    filtered = filtered.filter(p => p.isNew);
+                } else if (currentSpecial === 'sale') {
+                    filtered = filtered.filter(p => p.isSale);
+                }
+            }
+            if (currentSearch) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(currentSearch.toLowerCase()));
+            }
+
+            const grid = document.getElementById('productsGrid');
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full border-4 border-on-background p-12 bg-white brutalist-shadow text-center">
+                        <span class="material-symbols-outlined text-[64px] mb-4">search_off</span>
+                        <h3 class="font-display text-2xl font-black uppercase">PRODUK TIDAK DITEMUKAN</h3>
+                        <p class="font-bold text-sm text-gray-500 mt-2">Coba cari produk lain atau bersihkan filter pencarian.</p>
+                        <button onclick="resetFilters()" class="bg-[#FF8A00] text-on-background px-6 py-2 border-4 border-on-background font-display font-black uppercase brutalist-shadow-sm brutalist-button-hover transition-all mt-4">Hapus Filter</button>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const hasDiscount = p.isSale && p.originalPrice > p.price;
+                const discountTag = hasDiscount ? `<span class="absolute top-2 left-2 px-2 py-0.5 bg-red-600 text-white font-black text-xs border-2 border-on-background uppercase brutalist-shadow-sm z-10">SALE</span>` : '';
+                const newTag = p.isNew ? `<span class="absolute top-2 right-2 px-2 py-0.5 bg-[#FFDE03] text-on-background font-black text-xs border-2 border-on-background uppercase brutalist-shadow-sm z-10">NEW</span>` : '';
+
+                const priceDisplay = hasDiscount
+                    ? `<div class="flex flex-col items-end">
+                        <span class="font-display text-xs font-bold line-through text-gray-400">${formatRupiah(p.originalPrice)}</span>
+                        <span class="font-display text-base font-bold text-red-600">${formatRupiah(p.price)}</span>
+                       </div>`
+                    : `<span class="font-display text-base font-bold">${formatRupiah(p.price)}</span>`;
+
+                const sizesHtml = p.sizes.map(size => `
+                    <span class="size-btn px-2 py-0.5 border-2 border-on-background text-[10px] font-bold bg-white hover:bg-[#FFDE03] cursor-pointer transition-colors" onclick="selectProductSize(event, '${size}')">${size}</span>
+                `).join('');
+
+                return `
+                    <div class="bg-white border-4 border-on-background brutalist-shadow brutalist-card-hover transition-all flex flex-col relative">
+                        ${discountTag}
+                        ${newTag}
+                        <div class="aspect-square border-b-4 border-on-background overflow-hidden bg-surface-container relative">
+                            <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300" src="${p.image}" alt="${p.name}"/>
+                        </div>
+                        <div class="p-4 flex flex-col grow">
+                            <div class="flex justify-between items-start mb-2 gap-2">
+                                <h3 class="font-display text-xs font-black uppercase leading-tight text-on-background max-w-[70%]">${p.name}</h3>
+                                ${priceDisplay}
+                            </div>
+                            <div class="flex gap-1 mb-4 flex-wrap">
+                                ${sizesHtml}
+                            </div>
+                            <button class="mt-auto w-full bg-[#00ccf9] py-2 font-display text-sm font-black uppercase border-4 border-on-background brutalist-shadow-sm brutalist-button-hover transition-all" onclick="addProductToCart(${p.id}, this)">
+                                TAMBAH
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // --- Checkout Flow Logic ---
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                showToast('KERANJANG ANDA MASIH KOSONG!');
+                return;
+            }
+            toggleCart(false);
+            toggleCheckoutModal(true);
+        }
+
+        function toggleCheckoutModal(show) {
+            const m = document.getElementById('checkoutModal');
+            if (show) {
+                m.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                checkoutStep = 1;
+                switchCheckoutStep(1);
+            } else {
+                m.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        }
+
+        function switchCheckoutStep(step) {
+            checkoutStep = step;
+
+            document.getElementById('checkoutStep1').classList.add('hidden');
+            document.getElementById('checkoutStep2').classList.add('hidden');
+            document.getElementById('checkoutStep3').classList.add('hidden');
+            document.getElementById('checkoutStep4').classList.add('hidden');
+
+            document.getElementById(`checkoutStep${step}`).classList.remove('hidden');
+
+            const ind1 = document.getElementById('checkoutStepIndicator1');
+            const ind2 = document.getElementById('checkoutStepIndicator2');
+            const ind3 = document.getElementById('checkoutStepIndicator3');
+
+            ind1.className = "flex-1 font-display font-black text-[10px] uppercase " + (step >= 1 ? "text-[#FF8A00]" : "text-gray-400");
+            ind2.className = "flex-1 font-display font-black text-[10px] uppercase " + (step >= 2 ? "text-[#FF8A00]" : "text-gray-400");
+            ind3.className = "flex-1 font-display font-black text-[10px] uppercase " + (step >= 3 ? "text-[#FF8A00]" : "text-gray-400");
+
+            if (step === 3) {
+                updateReviewDetails();
+            }
+        }
+
+        function updateCheckoutTotal() {
+            const courier = document.getElementById('checkoutCourier').value;
+            if (courier === 'JNE') {
+                courierFee = 15000;
+            } else if (courier === 'J&T') {
+                courierFee = 18000;
+            } else if (courier === 'SICEPAT') {
+                courierFee = 12000;
+            }
+        }
+
+        document.getElementById('checkoutAddressForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            switchCheckoutStep(2);
+        });
+
+        document.getElementById('checkoutPaymentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            switchCheckoutStep(3);
+        });
+
+        function updateReviewDetails() {
+            const name = document.getElementById('checkoutName').value;
+            const phone = document.getElementById('checkoutPhone').value;
+            const address = document.getElementById('checkoutAddress').value;
+            const courier = document.getElementById('checkoutCourier').value;
+
+            document.getElementById('reviewShipName').innerText = `Nama: ${name}`;
+            document.getElementById('reviewShipPhone').innerText = `HP: ${phone}`;
+            document.getElementById('reviewShipAddress').innerText = `Alamat: ${address}`;
+            document.getElementById('reviewShipCourier').innerText = `Kurir: ${courier} (${formatRupiah(courierFee)})`;
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const total = subtotal + courierFee;
+
+            document.getElementById('reviewSubtotal').innerText = formatRupiah(subtotal);
+            document.getElementById('reviewCourierFee').innerText = formatRupiah(courierFee);
+            document.getElementById('reviewTotal').innerText = formatRupiah(total);
+
+            const itemsList = document.getElementById('reviewItemsList');
+            itemsList.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center py-0.5 border-b border-gray-100 last:border-0">
+                    <span>${item.name} (${item.size}) x ${item.qty}</span>
+                    <span>${formatRupiah(item.price * item.qty)}</span>
+                </div>
+            `).join('');
+        }
+
+        function finalizeOrder() {
+            const orderId = `DRM-${Math.floor(10000 + Math.random() * 90000)}`;
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const total = subtotal + courierFee;
+
+            document.getElementById('invoiceOrderId').innerText = `ID: ${orderId}`;
+            document.getElementById('invoiceTotal').innerText = formatRupiah(total);
+
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            let paymentText = '';
+            if (paymentMethod === 'BCA') {
+                paymentText = `Silakan transfer nominal persis ke rekening BCA: <strong>129-009-3829</strong> a.n DRM SHOP.`;
+            } else if (paymentMethod === 'MANDIRI') {
+                paymentText = `Silakan transfer nominal persis ke rekening MANDIRI: <strong>112-00-29384-2</strong> a.n DRM SHOP.`;
+            } else if (paymentMethod === 'QRIS') {
+                paymentText = `Silakan scan kode QRIS DRM SHOP berikut menggunakan e-wallet (GoPay, OVO, DANA, LinkAja).`;
+            }
+            document.getElementById('invoicePaymentDetails').innerHTML = paymentText;
+
+            const orderItemsDesc = cart.map(item => `${item.name} (${item.size}) x${item.qty}`).join(', ');
+            const orderLog = {
+                id: orderId,
+                items: orderItemsDesc,
+                total: total,
+                date: new Date().toLocaleDateString('id-ID'),
+                status: 'PENDING PEMBAYARAN'
+            };
+
+            let savedOrders = JSON.parse(sessionStorage.getItem('orders') || '[]');
+            savedOrders.unshift(orderLog);
+            sessionStorage.setItem('orders', JSON.stringify(savedOrders));
+
+            updateProfileOrders();
+
+            // Clear cart
+            cart = [];
+            updateCartUI();
+
+            switchCheckoutStep(4);
+        }
+
+        function goToPaymentConfirmation() {
+            const orderIdText = document.getElementById('invoiceOrderId').innerText.replace('ID: ', '');
+            const totalText = document.getElementById('invoiceTotal').innerText.replace(/[^0-9]/g, '');
+
+            toggleCheckoutModal(false);
+
+            document.getElementById('confirmOrderId').value = orderIdText;
+            document.getElementById('confirmAmount').value = totalText;
+
+            toggleModal('paymentModal', true);
+        }
+
+        function closeCheckoutAndReset() {
+            toggleCheckoutModal(false);
+        }
+
+        // --- Payment Confirmation Form Submit ---
+        document.getElementById('paymentConfirmForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const orderId = document.getElementById('confirmOrderId').value;
+
+            let savedOrders = JSON.parse(sessionStorage.getItem('orders') || '[]');
+            let found = false;
+            savedOrders = savedOrders.map(o => {
+                if (o.id === orderId || o.id.replace('DRM-', '') === orderId) {
+                    o.status = 'MENUNGGU VERIFIKASI';
+                    found = true;
+                }
+                return o;
+            });
+
+            if (found) {
+                sessionStorage.setItem('orders', JSON.stringify(savedOrders));
+                updateProfileOrders();
+            }
+
+            showToast('KONFIRMASI PEMBAYARAN DIKIRIM!');
+            toggleModal('paymentModal', false);
+            document.getElementById('paymentConfirmForm').reset();
+        });
+
+        // --- Newsletter Form Submit ---
+        document.getElementById('newsletterForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('TERIMA KASIH TELAH BERLANGGANAN!');
+            e.currentTarget.reset();
+        });
+
+        // --- Contact Form Submit ---
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            showToast('PESAN BERHASIL DIKIRIM!');
+            contactForm.reset();
+        });
+
+        // --- Initialize Page ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI();
+        });
+    </script>
+</body>
+
+</html>
